@@ -1,3 +1,9 @@
+let firstSteperrorArray = [];
+let secondSteperrorArray = [];
+let thirdSteperrorArray = [];
+let errorInfos = "error";
+
+
 function validatetCityState(field) {
     var parentFieldDiv = field.closest('.field');
     var lastSpan = parentFieldDiv.querySelector('.errorInfo');
@@ -8,18 +14,23 @@ function validatetCityState(field) {
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
+            firstSteperrorArray.push(errorInfos);
+
         } else {
             lastSpan.style.display = 'none';
             field.className = 'form-control field_success';
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
+            firstSteperrorArray.pop();
         }
     } else {
         lastSpan.style.display = 'none';
         field.className = 'form-control';
         field.nextElementSibling.className = '';
         parentFieldDiv.style.backgroundColor = '#fff';
+        firstSteperrorArray.pop();
     }
+    checkFirstStepErrorArray();
 }
 
 function validatetZip(field) {
@@ -31,18 +42,22 @@ function validatetZip(field) {
             field.className = 'form-control field_success';
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
+            firstSteperrorArray.pop();
         } else {
             lastSpan.style.display = 'contents';
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
+            firstSteperrorArray.push(errorInfos);
         }
     } else {
         lastSpan.style.display = 'none';
         field.className = 'form-control';
         field.nextElementSibling.className = '';
         parentFieldDiv.style.backgroundColor = '#fff';
+        firstSteperrorArray.pop();
     }
+    checkFirstStepErrorArray();
 }
 
 document.getElementById('address').addEventListener('input', function () {
@@ -217,19 +232,23 @@ document.addEventListener('DOMContentLoaded', function () {
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
+            firstSteperrorArray.push(errorInfos);
         } else {
             if (invalidChars.test(field.value)) {
                 lastSpan.style.display = 'contents';
                 field.className = 'form-control field_error';
                 field.nextElementSibling.className = 'icon-warning-sign';
                 parentFieldDiv.style.backgroundColor = '#FFF1FF';
+                firstSteperrorArray.push(errorInfos);
             } else {
                 lastSpan.style.display = 'none';
                 field.className = 'form-control field_success';
                 field.nextElementSibling.className = 'icon-ok';
                 parentFieldDiv.style.backgroundColor = '#fff';
+                firstSteperrorArray.pop();
             }
         }
+        checkFirstStepErrorArray();
     }
 
     function validatetEmail(field) {
@@ -240,12 +259,15 @@ document.addEventListener('DOMContentLoaded', function () {
             field.className = 'form-control field_success';
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
+            firstSteperrorArray.pop();
         } else {
             lastSpan.style.display = 'contents';
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
+            firstSteperrorArray.push(errorInfos);
         }
+        checkFirstStepErrorArray();
     }
 
     function validatetPhone(field) {
@@ -256,12 +278,15 @@ document.addEventListener('DOMContentLoaded', function () {
             field.className = 'form-control field_success';
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
+            firstSteperrorArray.pop();
         } else {
             lastSpan.style.display = 'contents';
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
+            firstSteperrorArray.push(errorInfos);
         }
+        checkFirstStepErrorArray();
     }
 
     function validatetAddress(field) {
@@ -274,18 +299,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 field.className = 'form-control field_error';
                 field.nextElementSibling.className = 'icon-warning-sign';
                 parentFieldDiv.style.backgroundColor = '#FFF1FF';
+                firstSteperrorArray.push(errorInfos);
             } else {
                 lastSpan.style.display = 'none';
                 field.className = 'form-control field_success';
                 field.nextElementSibling.className = 'icon-ok';
                 parentFieldDiv.style.backgroundColor = '#fff';
+                firstSteperrorArray.pop();
             }
         } else {
             lastSpan.style.display = 'none';
             field.className = 'form-control';
             field.nextElementSibling.className = '';
             parentFieldDiv.style.backgroundColor = '#fff';
+            firstSteperrorArray.pop();
         }
+        console.log(firstSteperrorArray);
+        checkFirstStepErrorArray();
     }
 });
 
@@ -432,44 +462,63 @@ function displayStep(stepNumber) {
     }
 }
 
-function displayStep(stepNumber) {
-    if (stepNumber >= 1 && stepNumber <= 3) {
-      $(".step-" + currentStep).hide();
-      $(".step-" + stepNumber).show();
-      currentStep = stepNumber;
-      updateProgressBar();
-    }
-  }
-  
-    $(document).ready(function() {
-      $('#multi-step-form').find('.step').slice(1).hide();
-    
-      $(".next-step").click(function() {
+$(document).ready(function () {
+    $('#multi-step-form').find('.step').slice(1).hide();
+
+    $(".next-step").click(function () {
         if (currentStep < 3) {
-          $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
-          currentStep++;
-          setTimeout(function() {
-            $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
-            $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
-            updateProgressBar();
-          }, 500);
+            $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
+            currentStep++;
+            setTimeout(function () {
+                $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
+                $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
+                updateProgressBar();
+            }, 500);
         }
-      });
-  
-      $(".prev-step").click(function() {
+    });
+
+    $(".prev-step").click(function () {
         if (currentStep > 1) {
-          $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
-          currentStep--;
-          setTimeout(function() {
-            $(".step").removeClass("animate__animated animate__fadeOutRight").hide();
-            $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInLeft");
-            updateProgressBar();
-          }, 500);
+            $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
+            currentStep--;
+            setTimeout(function () {
+                $(".step").removeClass("animate__animated animate__fadeOutRight").hide();
+                $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInLeft");
+                updateProgressBar();
+            }, 500);
         }
-      });
-  
-      updateProgressBar = function() {
+    });
+
+    updateProgressBar = function () {
         var progressPercentage = ((currentStep - 1) / 2) * 100;
         $(".progress-bar").css("width", progressPercentage + "%");
-      }
-    });
+    }
+});
+
+
+function checkFirstStepErrorArray() {
+    var firstStepNext = document.getElementById('firstStepNext');
+    if (firstSteperrorArray.length === 0) {
+        firstStepNext.disabled = false;
+    } else {
+        firstStepNext.disabled = true;
+    }
+};
+
+function checkSecondStepErrorArray() {
+    var firstStepNext = document.getElementById('secondStepNext');
+    if (firstSteperrorArray.length === 0) {
+        firstStepNext.disabled = false;
+    } else {
+        firstStepNext.disabled = true;
+    }
+};
+
+function checkThirdStepErrorArray() {
+    var firstStepNext = document.getElementById('thirdStepNext');
+    if (firstSteperrorArray.length === 0) {
+        firstStepNext.disabled = false;
+    } else {
+        firstStepNext.disabled = true;
+    }
+};
