@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REQUEST FOR COPY OF BUILDING/PLUMBING PLANS - 2023/2024</title>
+    <link rel="stylesheet" href="SingleForm.css">
+    <!-- <link rel="stylesheet" href="bootstrap.min.css"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="container" class="container mt-5">
+        <div class="progress px-1" style="height: 3px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
+                aria-valuemax="100"></div>
+        </div>
+        <div class="step-container d-flex justify-content-between">
+            <div class="step-circle" onclick="displayStep(1)">1</div>
+            <div class="step-circle" onclick="displayStep(2)">2</div>
+            <div class="step-circle" onclick="displayStep(3)">3</div>
+        </div>
+
+        <div class="row justify-content-center">
+            <form id="multi-step-form" class="row g-3">
+                <div class="step step-1">
+                    <!-- Step 1 form fields here -->
+                    <div class="col-12">
+                        <h2 class="form_title">Applicant Details:</h2>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="field">
+                                <label for="firstName" class="form-label">First Name <span
+                                        class="field_required field_required_text">(required)</span></label>
+                                <input type="text" class="form-control" id="firstName">
+                                <i></i>
+                                <span class="errorInfo" id="firstNameError">Name should only contain letters</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field">
+                                <label for="lastName" class="form-label">Last Name <span
+                                        class="field_required field_required_text">(required)</span></label>
+                                <input type="text" class="form-control" id="lastName">
+                                <i></i>
+                                <span class="errorInfo" id="lastNameError">Name should only contain letters</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="field">
+                            <label for="email" class="form-label">Email<span
+                                    class="field_required field_required_text">(required)</span></label>
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                            <i></i>
+                            <span class="errorInfo" id="emailError">The email address entered is invalid, please check
+                                the formatting (e.g. email@domain.com).</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="field">
+                            <label for="phone" class="form-label">Phone<span
+                                    class="field_required field_required_text">(required)</span></label>
+                            <input type="text" class="form-control" id="phone" placeholder="04XX XXX XXX">
+                            <i></i>
+                            <span class="errorInfo" id="phoneError">The phone number entered is invalid, please check
+                                the formatting (e.g. 04XX XXX XXX).</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="field">
+                            <label for="address" class="form-label">Address</label>
+                            <input list="addressList" class="form-control" id="address" placeholder="1234 Main St">
+                            <i></i>
+                            <datalist id="addressList">
+                            </datalist>
+                            <span class="errorInfo" id="addressError">The address entered is invalid, please contains
+                                only letters, numbers and blank (a-zA-Z0-9).</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="field">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city">
+                                <i></i>
+                                <span class="errorInfo" id="cityError">The city entered is invalid, please contains
+                                    only letters (a-zA-Z).</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="field">
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" class="form-control" id="state">
+                                <i></i>
+                                <span class="errorInfo" id="stateError">The state entered is invalid, please contains
+                                    only letters(a-zA-Z).</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="field">
+                                <label for="zip" class="form-label">Zip</label>
+                                <input type="text" class="form-control" id="zip">
+                                <i></i>
+                                <span class="errorInfo" id="zipError">Zip contains
+                                    only numbers.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary next-step">Next</button>
+                    </div>
+                </div>
+                <div class="step step-2">
+                    <!-- Step 2 form fields here -->
+                    <!-- Property Details:-->
+                    <div class="col-12">
+                        <h2 class="form_title">Property Details:</h2>
+                        <hr>
+                    </div>
+                    <div class="col-12">
+                        <div class="field">
+                            <label for="propertyAddress" class="form-label">Address</label>
+                            <input list="propertyAddressList" class="form-control" id="propertyAddress"
+                                placeholder="1234 Main St">
+                            <i></i>
+                            <datalist id="propertyAddressList">
+                            </datalist>
+                            <span class="errorInfo" id="propertyAddressError">The address entered is invalid, please
+                                contains
+                                only letters, numbers and blank (a-zA-Z0-9).</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="field">
+                                <label for="propertyCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="propertyCity">
+                                <i></i>
+                                <span class="errorInfo" id="propertyCityError">The city entered is invalid, please contains
+                                    only letters (a-zA-Z).</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="field">
+                                <label for="propertyState" class="form-label">State</label>
+                                <input type="text" class="form-control" id="propertyState">
+                                <i></i>
+                                <span class="errorInfo" id="propertyStateError">The state entered is invalid, please
+                                    contains
+                                    only letters(a-zA-Z).</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="field">
+                                <label for="propertyZip" class="form-label">Zip</label>
+                                <input type="text" class="form-control" id="propertyZip">
+                                <i></i>
+                                <span class="errorInfo" id="propertyZipError">Zip contains
+                                    only numbers.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                    </div>
+                    <!-- Document select:-->
+                    <div class="col-12">
+                        <h2 class="form_title">Document select:</h2>
+                        <hr>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="planGroup" id="allPlan">
+                            <label class="form-check-label" for="allPlan">
+                                Building and Plumbing Plans
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="planGroup" id="plumbingOnly">
+                            <label class="form-check-label" for="plumbingOnly">
+                                Plumbing Plans Only
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 hidden_row">
+                        <div id="total">
+                            <span>Total</span>
+                        </div>
+                    </div>
+                    <div class="col-12 hidden_row">
+                        <div id="price">
+                            <span>$65</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="hardOrEmail" id="hardCopy">
+                                <label class="form-check-label" for="hardCopy">
+                                    I require a Hard COPY
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="methodGroup" id="collectRadio">
+                                <label class="form-check-label" for="collectRadio">
+                                    Collect
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="methodGroup" id="postRadio">
+                                <label class="form-check-label" for="postRadio">
+                                    Post
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 ">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="hardOrEmail" id="documentEmailed">
+                            <label class="form-check-label" for="documentEmailed">
+                                I require document Emailed
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                    </div>
+                    <br><br>
+                    <button type="button" class="btn btn-primary prev-step">Previous</button>
+                    <button type="button" class="btn btn-primary next-step">Next</button>
+                </div>
+                <div class="step step-3">
+                    <!-- Owner details and consent:-->
+                    <div class="col-12">
+                        <h2 class="form_title">Owner details and consent: (To be completed where the applicant is not
+                            the owner)</h2>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span>The applicant is not the owner</span>
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-check-input" type="checkbox" value="" id="isOwnerRadio">
+                        </div>
+                    </div>
+                    <div id="isOwner" class="isOwnerStyle">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="field">
+                                    <label for="OwnerFirstName" class="form-label">First Name <span
+                                            class="field_required field_required_text">(required)</span></label>
+                                    <input type="text" class="form-control" id="OwnerFirstName">
+                                    <i></i>
+                                    <span class="errorInfo" id="firstNameError">Name should only contain letters</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="field">
+                                    <label for="OwnerLastName" class="form-label">Last Name <span
+                                            class="field_required field_required_text">(required)</span></label>
+                                    <input type="text" class="form-control" id="OwnerLastName">
+                                    <i></i>
+                                    <span class="errorInfo" id="lastNameError">Name should only contain letters</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="field">
+                                <label for="OwnerEmail" class="form-label">Email<span
+                                        class="field_required field_required_text">(required)</span></label>
+                                <input type="email" class="form-control" id="OwnerEmail" placeholder="name@example.com">
+                                <i></i>
+                                <span class="errorInfo" id="emailError">The email address entered is invalid, please
+                                    check
+                                    the formatting (e.g. email@domain.com).</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="field">
+                                <label for="OwnerPhone" class="form-label">Phone<span
+                                        class="field_required field_required_text">(required)</span></label>
+                                <input type="text" class="form-control" id="OwnerPhone" placeholder="04XX XXX XXX">
+                                <i></i>
+                                <span class="errorInfo" id="phoneError">The phone number entered is invalid, please
+                                    check
+                                    the formatting (e.g. 04XX XXX XXX).</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="field">
+                                <label for="OwnerAddress" class="form-label">Address</label>
+                                <input list="OwnerAddressList" class="form-control" id="OwnerAddress"
+                                    placeholder="1234 Main St">
+                                <i></i>
+                                <datalist id="OwnerAddressList">
+                                </datalist>
+                                <span class="errorInfo" id="addressError">The address entered is invalid, please
+                                    contains
+                                    only letters, numbers and blank (a-zA-Z0-9).</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="field">
+                                    <label for="OwnerCity" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="OwnerCity">
+                                    <i></i>
+                                    <span class="errorInfo" id="cityError">The city entered is invalid, please contains
+                                        only letters (a-zA-Z).</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="field">
+                                    <label for="OwnerState" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="OwnerState">
+                                    <i></i>
+                                    <span class="errorInfo" id="stateError">The state entered is invalid, please
+                                        contains
+                                        only letters(a-zA-Z).</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="field">
+                                    <label for="OwnerZip" class="form-label">Zip</label>
+                                    <input type="text" class="form-control" id="OwnerZip">
+                                    <i></i>
+                                    <span class="errorInfo" id="zipError">Zip contains
+                                        only numbers.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="choose_date">Date:</label>
+                            <input class="form-control" type="date" name="choose_date" min="2022-01-01"
+                                max="2024-12-31">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Signature:</label>
+                            <i class="icon-pencil" data-bs-toggle="modal" data-bs-target="#OwnerSignatureModal"></i>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="signatureContainer">
+                                <img id="OwnerSignatureImage" src="" alt="Signature" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DECLARATION-->
+                    <div class="col-12"></div>
+                    <div class="col-12">
+                        <h2 class="form_title">Declaration:</h2>
+                        <hr>
+                    </div>
+                    <div class="col-12">
+                        <span class="notice">
+                            Please note: To obtain copies of documents you must be the owner or have the owner's
+                            consent.</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span>I am the owner of the above property</span>
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-check-input" type="checkbox" value="" id="ownerRadio">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span>I am the applicant with written consent from the owner</span>
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-check-input" type="checkbox" value="" id="applicantRadio">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="choose_date">Date:</label>
+                        <input class="form-control" type="date" id="choose_date" name="choose_date" min="2022-01-01"
+                            max="2024-12-31">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Signature:</label>
+                        <i class="icon-pencil" data-bs-toggle="modal" data-bs-target="#signatureModal"></i>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="signatureContainer">
+                            <img id="signatureImage" src="" alt="Signature" style="display: none;">
+                        </div>
+                    </div>
+                    <br><br>
+                    <button type="button" class="btn btn-primary prev-step">Previous</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+            <!-- Modal -->
+            <div class="modal fade" id="OwnerSignatureModal" tabindex="-1" aria-labelledby="OwnerSignatureModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="OwnerSignatureModalLabel">Digtial Signature</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <canvas id="signature-pad-1" class="signature-pad" width=400 height=100></canvas>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="OwnerSignatureClear" class="btn btn-danger">Clear</button>
+                            <button type="button" id="OwnerSignatureSave" data-bs-dismiss="modal"
+                                class="btn btn-success">Accept</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="signatureModalLabel">Digtial Signature</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <canvas id="signature-pad" class="signature-pad" width=400 height=100></canvas>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="signatureClear" class="btn btn-danger">Clear</button>
+                            <button type="button" id="signatureSave" data-bs-dismiss="modal"
+                                class="btn btn-success">Accept</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- <script src="BootstrapFormJS.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.6.4.slim.min.js'></script>
+</body>
+
+</html>
