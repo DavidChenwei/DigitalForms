@@ -14,23 +14,26 @@ function validatetCityState(field) {
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
-            firstSteperrorArray.push(errorInfos);
+            return false;
+            //firstSteperrorArray.push(errorInfos);
 
         } else {
             lastSpan.style.display = 'none';
             field.className = 'form-control field_success';
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
-            firstSteperrorArray.pop();
+            //firstSteperrorArray.pop();
+            return true;
         }
     } else {
         lastSpan.style.display = 'none';
         field.className = 'form-control';
         field.nextElementSibling.className = '';
         parentFieldDiv.style.backgroundColor = '#fff';
-        firstSteperrorArray.pop();
+        return true;
+        //firstSteperrorArray.pop();
     }
-    checkFirstStepErrorArray();
+    //checkFirstStepErrorArray();
 }
 
 function validatetZip(field) {
@@ -42,22 +45,25 @@ function validatetZip(field) {
             field.className = 'form-control field_success';
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
-            firstSteperrorArray.pop();
+            //firstSteperrorArray.pop();
+            return true;
         } else {
             lastSpan.style.display = 'contents';
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
-            firstSteperrorArray.push(errorInfos);
+            //firstSteperrorArray.push(errorInfos);
+            return false;
         }
     } else {
         lastSpan.style.display = 'none';
         field.className = 'form-control';
         field.nextElementSibling.className = '';
         parentFieldDiv.style.backgroundColor = '#fff';
-        firstSteperrorArray.pop();
+        return true;
+        //firstSteperrorArray.pop();
     }
-    checkFirstStepErrorArray();
+    //checkFirstStepErrorArray();
 }
 
 document.getElementById('address').addEventListener('input', function () {
@@ -178,7 +184,7 @@ document.getElementById('propertyAddress').addEventListener('change', function (
 
 document.getElementById('OwnerAddress').addEventListener('change', function () {
     var selectedAddress = this.value;
-
+    var firstStepNext = document.getElementById('firstStepNext');
     fetch('https://nominatim.openstreetmap.org/search?addressdetails=1&format=json&q=' + selectedAddress)
         .then(function (response) {
             return response.json();
@@ -190,9 +196,14 @@ document.getElementById('OwnerAddress').addEventListener('change', function () {
                 document.getElementById('OwnerState').value = addressObj.state;
                 document.getElementById('OwnerZip').value = addressObj.postcode;
                 document.getElementById('OwnerAddress').value = addressObj.road;
-                validatetCityState(document.getElementById('OwnerState'));
-                validatetCityState(document.getElementById('OwnerCity'));
-                validatetZip(document.getElementById('OwnerZip'));
+                var resCityState = validatetCityState(document.getElementById('OwnerState'));
+                var resCityState = validatetCityState(document.getElementById('OwnerCity'));
+                var resZip = validatetZip(document.getElementById('OwnerZip'));
+                if (resCityState && resZip) {
+                    firstStepNext.disabled = false;
+                } else {
+
+                }
             }
         })
         .catch(function (error) {
@@ -201,25 +212,44 @@ document.getElementById('OwnerAddress').addEventListener('change', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    var firstStepNext = document.getElementById('firstStepNext');
+    firstStepNext.disabled = true;
+    var resFirstName = false;
+    var resLastName = false;
+    var resEmail = false;
+    var resPhone = false;
+    var resAddress = true;
+    var resCityState = true;
+    var resZip = true;
+
     document.querySelectorAll('input').forEach(function (input) {
         input.addEventListener('blur', function () {
-            if (input.id === "firstName" || input.id === "lastName" || input.id === "OwnerFirstName" || input.id === "OwnerLastName") {
-                validatetName(input);
+            if (input.id === "firstName" || input.id === "OwnerFirstName") {
+                resFirstName = validatetName(input);
+            }
+            if (input.id === "lastName" || input.id === "OwnerLastName") {
+                resLastName = validatetName(input);
             }
             if (input.id === 'email' || input.id === 'OwnerEmail') {
-                validatetEmail(input);
+                resEmail = validatetEmail(input);
             }
             if (input.id === 'phone' || input.id === 'OwnerPhone') {
-                validatetPhone(input);
+                resPhone = validatetPhone(input);
             }
             if (input.id === 'address' || input.id === "propertyAddress" || input.id === "OwnerAddress") {
-                validatetAddress(input);
+                resAddress = validatetAddress(input);
             }
             if (input.id === 'city' || input.id === 'state' || input.id === 'propertyState' || input.id === 'propertyCity' || input.id === 'OwnerCity' || input.id === 'OwnerState') {
-                validatetCityState(input);
+                resCityState = validatetCityState(input);
             }
             if (input.id === 'zip' || input.id === 'propertyZip' || input.id === 'OwnerZip') {
-                validatetZip(input);
+                resZip = validatetZip(input);
+            }
+            if (resFirstName && resLastName && resEmail && resPhone && resAddress && resCityState && resZip) {
+                console.log("here is here");
+                firstStepNext.disabled = false;
+            } else {
+                firstStepNext.disabled = true;
             }
         });
     });
@@ -232,23 +262,26 @@ document.addEventListener('DOMContentLoaded', function () {
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
-            firstSteperrorArray.push(errorInfos);
+            //firstSteperrorArray.push(errorInfos);
+            return false;
         } else {
             if (invalidChars.test(field.value)) {
                 lastSpan.style.display = 'contents';
                 field.className = 'form-control field_error';
                 field.nextElementSibling.className = 'icon-warning-sign';
                 parentFieldDiv.style.backgroundColor = '#FFF1FF';
-                firstSteperrorArray.push(errorInfos);
+                //firstSteperrorArray.push(errorInfos);
+                return false;
             } else {
                 lastSpan.style.display = 'none';
                 field.className = 'form-control field_success';
                 field.nextElementSibling.className = 'icon-ok';
                 parentFieldDiv.style.backgroundColor = '#fff';
-                firstSteperrorArray.pop();
+                return true;
+                //firstSteperrorArray.pop();
             }
         }
-        checkFirstStepErrorArray();
+        //checkFirstStepErrorArray();
     }
 
     function validatetEmail(field) {
@@ -259,15 +292,17 @@ document.addEventListener('DOMContentLoaded', function () {
             field.className = 'form-control field_success';
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
-            firstSteperrorArray.pop();
+            //firstSteperrorArray.pop();
+            return true;
         } else {
             lastSpan.style.display = 'contents';
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
-            firstSteperrorArray.push(errorInfos);
+            //firstSteperrorArray.push(errorInfos);
+            return false;
         }
-        checkFirstStepErrorArray();
+        //checkFirstStepErrorArray();
     }
 
     function validatetPhone(field) {
@@ -279,14 +314,16 @@ document.addEventListener('DOMContentLoaded', function () {
             field.nextElementSibling.className = 'icon-ok';
             parentFieldDiv.style.backgroundColor = '#fff';
             firstSteperrorArray.pop();
+            return true;
         } else {
             lastSpan.style.display = 'contents';
             field.className = 'form-control field_error';
             field.nextElementSibling.className = 'icon-warning-sign';
             parentFieldDiv.style.backgroundColor = '#FFF1FF';
             firstSteperrorArray.push(errorInfos);
+            return false;
         }
-        checkFirstStepErrorArray();
+        //checkFirstStepErrorArray();
     }
 
     function validatetAddress(field) {
@@ -299,23 +336,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 field.className = 'form-control field_error';
                 field.nextElementSibling.className = 'icon-warning-sign';
                 parentFieldDiv.style.backgroundColor = '#FFF1FF';
-                firstSteperrorArray.push(errorInfos);
+                return false;
+                //firstSteperrorArray.push(errorInfos);
             } else {
                 lastSpan.style.display = 'none';
                 field.className = 'form-control field_success';
                 field.nextElementSibling.className = 'icon-ok';
                 parentFieldDiv.style.backgroundColor = '#fff';
-                firstSteperrorArray.pop();
+                //firstSteperrorArray.pop();
+                return true;
             }
         } else {
             lastSpan.style.display = 'none';
             field.className = 'form-control';
             field.nextElementSibling.className = '';
             parentFieldDiv.style.backgroundColor = '#fff';
-            firstSteperrorArray.pop();
+            //firstSteperrorArray.pop();
+            return true;
         }
-        console.log(firstSteperrorArray);
-        checkFirstStepErrorArray();
+        //console.log(firstSteperrorArray);
+        //checkFirstStepErrorArray();
     }
 });
 
@@ -328,13 +368,26 @@ document.addEventListener('DOMContentLoaded', function () {
     var priceText = priceElement.querySelector('span');
     var parentTotalDiv = totalElement.closest('.col-12');
     var parentPriceDiv = priceElement.closest('.col-12');
+    var parentFieldDiv = allPlanRadio.closest('.planGroup');
+    var lastSpan = parentFieldDiv.querySelector('.errorInfo');
+    if (allPlanRadio.checked || plumbingOnlyRadio.checked) {
+        parentFieldDiv.style.backgroundColor = '#fff';
+    } else {
+        parentFieldDiv.style.backgroundColor = '#FFF1FF';
+        lastSpan.style.display = 'contents';
+    }
+
     // Function to toggle the price display
     function togglePriceDisplay() {
         if (allPlanRadio.checked) {
-            priceText.textContent = "$65"
+            priceText.textContent = "$65";
+            parentFieldDiv.style.backgroundColor = '#fff';
+            lastSpan.style.display = 'none';
         }
         if (plumbingOnlyRadio.checked) {
-            priceText.textContent = "$15"
+            priceText.textContent = "$15";
+            parentFieldDiv.style.backgroundColor = '#fff';
+            lastSpan.style.display = 'none';
         }
         if (allPlanRadio.checked || plumbingOnlyRadio.checked) {
             parentTotalDiv.style.display = 'block';
@@ -347,12 +400,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listeners for the radio buttons
     allPlanRadio.addEventListener('change', togglePriceDisplay);
     plumbingOnlyRadio.addEventListener('change', togglePriceDisplay);
-
     const documentEmailed = document.getElementById('documentEmailed');
     const hardCopy = document.getElementById('hardCopy');
     const collectRadio = document.getElementById('collectRadio');
     const postRadio = document.getElementById('postRadio');
-
+    var methodParentFieldDiv = hardCopy.closest('.planGroup');
+    var methodLastSpan = methodParentFieldDiv.querySelector('.errorInfo');
+    if (hardCopy.checked || documentEmailed.checked) {
+        parentFieldDiv.style.backgroundColor = '#fff';
+    } else {
+        methodParentFieldDiv.style.backgroundColor = '#FFF1FF';
+        methodLastSpan.style.display = 'contents';
+    }
     collectRadio.disabled = true;
     postRadio.disabled = true;
 
@@ -362,6 +421,9 @@ document.addEventListener('DOMContentLoaded', function () {
             collectRadio.disabled = true;
             postRadio.checked = false;
             postRadio.disabled = true;
+            methodParentFieldDiv.style.backgroundColor = '#fff';
+            methodLastSpan.style.display = 'none';
+            methodLastSpan.textContent = "Choose Collect or Post"
         } else {
             collectRadio.disabled = true;
             postRadio.disabled = true;
@@ -372,9 +434,25 @@ document.addEventListener('DOMContentLoaded', function () {
         if (this.checked) {
             collectRadio.disabled = false;
             postRadio.disabled = false;
+            methodParentFieldDiv.style.backgroundColor = '#FFF1FF';
+            methodLastSpan.style.display = 'contents';
         } else {
             postRadio.checked = false;
             collectRadio.checked = false;
+        }
+    });
+
+    collectRadio.addEventListener('change', function () {
+        if (this.checked) {
+            methodParentFieldDiv.style.backgroundColor = '#fff';
+            methodLastSpan.style.display = 'none';
+        }
+    });
+
+    postRadio.addEventListener('change', function () {
+        if (this.checked) {
+            methodParentFieldDiv.style.backgroundColor = '#fff';
+            methodLastSpan.style.display = 'none';
         }
     });
 });
