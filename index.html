@@ -23,12 +23,12 @@
                 aria-valuemax="100"></div>
         </div>
         <div class="step-container d-flex justify-content-between">
-            <!-- <div class="step-circle" onclick="displayStep(1)">1</div>
+            <div class="step-circle" onclick="displayStep(1)">1</div>
             <div class="step-circle" onclick="displayStep(2)">2</div>
-            <div class="step-circle" onclick="displayStep(3)">3</div> -->
-            <div class="step-circle">1</div>
+            <div class="step-circle" onclick="displayStep(3)">3</div>
+            <!-- <div class="step-circle">1</div>
             <div class="step-circle">2</div>
-            <div class="step-circle">3</div>
+            <div class="step-circle">3</div> -->
         </div>
 
         <div class="row justify-content-center">
@@ -181,22 +181,26 @@
                         <h2 class="form_title">Document select:</h2>
                         <hr>
                     </div>
-                    <div class="col-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="planGroup" id="allPlan">
-                            <label class="form-check-label" for="allPlan">
-                                Building and Plumbing Plans
-                            </label>
+                    <div class="planGroup">
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="planGroup" id="allPlan">
+                                <label class="form-check-label" for="allPlan">
+                                    Building and Plumbing Plans
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="planGroup" id="plumbingOnly">
-                            <label class="form-check-label" for="plumbingOnly">
-                                Plumbing Plans Only
-                            </label>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="planGroup" id="plumbingOnly">
+                                <label class="form-check-label" for="plumbingOnly">
+                                    Plumbing Plans Only
+                                </label>
+                            </div>
                         </div>
+                        <span class="errorInfo" id="planRaioError">This field is required</span>
                     </div>
+
                     <div class="col-12 hidden_row">
                         <div id="total">
                             <span>Total</span>
@@ -207,45 +211,48 @@
                             <span>$65</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="planGroup">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="hardOrEmail" id="hardCopy">
+                                    <label class="form-check-label" for="hardCopy">
+                                        I require a Hard COPY
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="methodGroup" id="collectRadio">
+                                    <label class="form-check-label" for="collectRadio">
+                                        Collect
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="methodGroup" id="postRadio">
+                                    <label class="form-check-label" for="postRadio">
+                                        Post
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 ">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="hardOrEmail" id="hardCopy">
-                                <label class="form-check-label" for="hardCopy">
-                                    I require a Hard COPY
+                                <input class="form-check-input" type="radio" name="hardOrEmail" id="documentEmailed">
+                                <label class="form-check-label" for="documentEmailed">
+                                    I require document Emailed
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="methodGroup" id="collectRadio">
-                                <label class="form-check-label" for="collectRadio">
-                                    Collect
-                                </label>
-                            </div>
+                        <span class="errorInfo" id="methodRaioError">This field is required</span>
+                        <div class="col-12">
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="methodGroup" id="postRadio">
-                                <label class="form-check-label" for="postRadio">
-                                    Post
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 ">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="hardOrEmail" id="documentEmailed">
-                            <label class="form-check-label" for="documentEmailed">
-                                I require document Emailed
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-12">
                     </div>
                     <br><br>
                     <button type="button" class="btn btn-primary prev-step">Previous</button>
-                    <button type="button" class="btn btn-primary next-step">Next</button>
+                    <button type="button" id="secondStepNext" class="btn btn-primary next-step">Next</button>
                 </div>
                 <div class="step step-3">
                     <!-- Owner details and consent:-->
