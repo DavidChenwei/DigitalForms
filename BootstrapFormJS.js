@@ -552,11 +552,16 @@ document.addEventListener("DOMContentLoaded", function () {
     var saveButtonOwner = document.getElementById('OwnerSignatureSave');
     var cancelButtonOwner = document.getElementById('OwnerSignatureClear');
 
+    var isSigned = false;
+    var IsSignedOwner = false;
+    var dateFill = false;
+
     cancelButtonOwner.addEventListener('click', function (event) {
         signaturePadOwner.clear();
         var signatureImage = document.getElementById('OwnerSignatureImage');
         signatureImage.style.display = 'none';
         signatureImage.src = "";
+        IsSignedOwner = false;
     });
 
     saveButtonOwner.addEventListener('click', function (event) {
@@ -564,6 +569,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var signatureImage = document.getElementById('OwnerSignatureImage');
         signatureImage.style.display = 'block';
         signatureImage.src = data;
+        IsSignedOwner = true;
     });
 
     cancelButton.addEventListener('click', function (event) {
@@ -571,17 +577,34 @@ document.addEventListener("DOMContentLoaded", function () {
         var signatureImage = document.getElementById('signatureImage');
         signatureImage.style.display = 'none';
         signatureImage.src = "";
+        isSigned = false;
     });
-
 
     saveButton.addEventListener('click', function (event) {
         var data = signaturePad.toDataURL('image/png');
         var signatureImage = document.getElementById('signatureImage');
         signatureImage.style.display = 'block';
         signatureImage.src = data;
+        isSigned = true;
     });
 });
 
+
+document.addEventListener('DOMContentLoaded', function() {
+    var dateInput = document.getElementById('choose_date');
+  
+    dateInput.addEventListener('change', function() {
+      if (validator.isDate(dateInput.value)) {
+        console.log("A date has been chosen:", dateInput.value);
+        dateFill = true;
+      } else {
+        console.log("No date has been chosen.");
+        dateFill = false;
+      }
+    })
+});
+
+//multi step JS code
 var currentStep = 1;
 var updateProgressBar;
 
