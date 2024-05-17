@@ -2,7 +2,12 @@ let firstSteperrorArray = [];
 let secondSteperrorArray = [];
 let thirdSteperrorArray = [];
 let errorInfos = "error";
-
+var firstStepNext = document.getElementById('firstStepNext');
+firstStepNext.disabled = true;
+var secondStepNext = document.getElementById('secondStepNext');
+secondStepNext.disabled = true;
+var submitBtn = document.getElementById('submitBtn');
+submitBtn.disabled = true;
 
 function validatetCityState(field) {
     var parentFieldDiv = field.closest('.field');
@@ -212,8 +217,6 @@ document.getElementById('OwnerAddress').addEventListener('change', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    var firstStepNext = document.getElementById('firstStepNext');
-    firstStepNext.disabled = true;
     var resFirstName = false;
     var resLastName = false;
     var resEmail = false;
@@ -249,6 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("here is here");
                 firstStepNext.disabled = false;
             } else {
+                console.log("here is hhhh");
                 firstStepNext.disabled = true;
             }
         });
@@ -360,6 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('multi-step-form');
     // Get the radio buttons and the element to show the price
     var allPlanRadio = document.getElementById('allPlan');
     var plumbingOnlyRadio = document.getElementById('plumbingOnly');
@@ -455,6 +460,35 @@ document.addEventListener('DOMContentLoaded', function () {
             methodLastSpan.style.display = 'none';
         }
     });
+
+    //check if all required radios checked
+    function checkRadios(){
+        if (allPlanRadio.checked || plumbingOnlyRadio) {
+            if (hardCopy.checked) {
+                if (collectRadio.checked || postRadio.checked) {
+                    console.log("aaaa")
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            if (documentEmailed.checked) {
+                console.log("dddd")
+                return true;
+            }
+        }
+    }
+
+    form.addEventListener('change', function (e) {
+        if (e.target.type === 'radio') {
+            var resBl = checkRadios(); // Call the function to check radios
+            if (resBl){
+                secondStepNext.disabled = false;
+            }else{
+                secondStepNext.disabled = true;
+            }
+        }
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -507,10 +541,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     cancelButtonOwner.addEventListener('click', function (event) {
         signaturePadOwner.clear();
-    });
-
-    cancelButton.addEventListener('click', function (event) {
-        signaturePad.clear();
+        var signatureImage = document.getElementById('OwnerSignatureImage');
+        signatureImage.style.display = 'none';
     });
 
     saveButtonOwner.addEventListener('click', function (event) {
@@ -519,6 +551,13 @@ document.addEventListener("DOMContentLoaded", function () {
         signatureImage.style.display = 'block';
         signatureImage.src = data;
     });
+
+    cancelButton.addEventListener('click', function (event) {
+        signaturePad.clear();
+        var signatureImage = document.getElementById('signatureImage');
+        signatureImage.style.display = 'none';
+    });
+
 
     saveButton.addEventListener('click', function (event) {
         var data = signaturePad.toDataURL('image/png');
