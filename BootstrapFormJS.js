@@ -1,7 +1,3 @@
-let firstSteperrorArray = [];
-let secondSteperrorArray = [];
-let thirdSteperrorArray = [];
-let errorInfos = "error";
 var firstStepNext = document.getElementById('firstStepNext');
 firstStepNext.disabled = true;
 var secondStepNext = document.getElementById('secondStepNext');
@@ -520,6 +516,23 @@ document.addEventListener("DOMContentLoaded", function () {
             applicantRadio.disabled = true;
         }
     });
+
+    applicantRadio.addEventListener('change', function(){
+        if(this.checked){
+            isOwnerRadio.checked = true;
+            isOwnerDiv.style.display = 'block';
+            ownerRadio.checked = false;
+            ownerRadio.disabled = true;
+            applicantRadio.checked = true;
+            applicantRadio.disabled = true;
+        }else{
+            isOwnerDiv.style.display = 'none';
+            ownerRadio.checked = true;
+            ownerRadio.disabled = true;
+            applicantRadio.checked = false;
+            applicantRadio.disabled = true;
+        }
+    });
 });
 
 //Signature
@@ -543,6 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
         signaturePadOwner.clear();
         var signatureImage = document.getElementById('OwnerSignatureImage');
         signatureImage.style.display = 'none';
+        signatureImage.src = "";
     });
 
     saveButtonOwner.addEventListener('click', function (event) {
@@ -556,6 +570,7 @@ document.addEventListener("DOMContentLoaded", function () {
         signaturePad.clear();
         var signatureImage = document.getElementById('signatureImage');
         signatureImage.style.display = 'none';
+        signatureImage.src = "";
     });
 
 
@@ -612,30 +627,3 @@ $(document).ready(function () {
     }
 });
 
-
-function checkFirstStepErrorArray() {
-    var firstStepNext = document.getElementById('firstStepNext');
-    if (firstSteperrorArray.length === 0) {
-        firstStepNext.disabled = false;
-    } else {
-        firstStepNext.disabled = true;
-    }
-};
-
-function checkSecondStepErrorArray() {
-    var firstStepNext = document.getElementById('secondStepNext');
-    if (firstSteperrorArray.length === 0) {
-        firstStepNext.disabled = false;
-    } else {
-        firstStepNext.disabled = true;
-    }
-};
-
-function checkThirdStepErrorArray() {
-    var firstStepNext = document.getElementById('thirdStepNext');
-    if (firstSteperrorArray.length === 0) {
-        firstStepNext.disabled = false;
-    } else {
-        firstStepNext.disabled = true;
-    }
-};
