@@ -458,13 +458,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     //check if all required radios checked
-    function checkRadios(){
+    function checkRadios() {
         if (allPlanRadio.checked || plumbingOnlyRadio) {
             if (hardCopy.checked) {
                 if (collectRadio.checked || postRadio.checked) {
                     console.log("aaaa")
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -478,9 +478,9 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('change', function (e) {
         if (e.target.type === 'radio') {
             var resBl = checkRadios(); // Call the function to check radios
-            if (resBl){
+            if (resBl) {
                 secondStepNext.disabled = false;
-            }else{
+            } else {
                 secondStepNext.disabled = true;
             }
         }
@@ -517,15 +517,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    applicantRadio.addEventListener('change', function(){
-        if(this.checked){
+    applicantRadio.addEventListener('change', function () {
+        if (this.checked) {
             isOwnerRadio.checked = true;
             isOwnerDiv.style.display = 'block';
             ownerRadio.checked = false;
             ownerRadio.disabled = true;
             applicantRadio.checked = true;
             applicantRadio.disabled = true;
-        }else{
+        } else {
             isOwnerDiv.style.display = 'none';
             ownerRadio.checked = true;
             ownerRadio.disabled = true;
@@ -587,22 +587,35 @@ document.addEventListener("DOMContentLoaded", function () {
         signatureImage.src = data;
         isSigned = true;
     });
-});
 
-
-document.addEventListener('DOMContentLoaded', function() {
     var dateInput = document.getElementById('choose_date');
-  
-    dateInput.addEventListener('change', function() {
-      if (validator.isDate(dateInput.value)) {
-        console.log("A date has been chosen:", dateInput.value);
-        dateFill = true;
-      } else {
-        console.log("No date has been chosen.");
-        dateFill = false;
-      }
+
+    dateInput.addEventListener('change', function () {
+        if (validator.isDate(dateInput.value)) {
+            dateFill = true;
+        } else {
+            dateFill = false;
+        }
     })
+    dateInput.addEventListener('change', toggleSubmitDisplay);
+    cancelButton.addEventListener('click', toggleSubmitDisplay);
+    saveButton.addEventListener('click', toggleSubmitDisplay);
+
+    function toggleSubmitDisplay(){
+        if (dateFill && isSigned){
+            submitBtn.disabled = false;
+            console.log(dateFill);
+            console.log(isSigned);
+        }else{
+            submitBtn.disabled = true;
+            console.log(dateFill);
+            console.log(isSigned);
+        }
+    };
+
 });
+
+
 
 //multi step JS code
 var currentStep = 1;
